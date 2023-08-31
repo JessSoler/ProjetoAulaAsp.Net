@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AulaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorias">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cidades">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="UF" Type="varchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDCidade" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="DataNascimento" Type="datetime" Nullable="false" />
+          <Property Name="Sexo" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Ativo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Produtos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDCategoria" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Quantidade" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ValorUnitario" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Ativo" Type="bit" />
+        </EntityType>
+        <EntityType Name="VendaItens">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDVenda" Type="int" Nullable="false" />
+          <Property Name="IDProduto" Type="int" Nullable="false" />
+          <Property Name="Quantidade" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ValorUnitario" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vendas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDCliente" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Clientes__IDCida__38996AB5">
+          <End Role="Cidades" Type="Self.Cidades" Multiplicity="1" />
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cidades">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Clientes">
+              <PropertyRef Name="IDCidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Produtos__IDCate__3E52440B">
+          <End Role="Categorias" Type="Self.Categorias" Multiplicity="1" />
+          <End Role="Produtos" Type="Self.Produtos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Produtos">
+              <PropertyRef Name="IDCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VendaIten__IDPro__46E78A0C">
+          <End Role="Produtos" Type="Self.Produtos" Multiplicity="1" />
+          <End Role="VendaItens" Type="Self.VendaItens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produtos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VendaItens">
+              <PropertyRef Name="IDProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VendaIten__IDVen__45F365D3">
+          <End Role="Vendas" Type="Self.Vendas" Multiplicity="1" />
+          <End Role="VendaItens" Type="Self.VendaItens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VendaItens">
+              <PropertyRef Name="IDVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vendas__IDClient__4316F928">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Vendas" Type="Self.Vendas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vendas">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AulaModelStoreContainer">
+          <EntitySet Name="Categorias" EntityType="Self.Categorias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cidades" EntityType="Self.Cidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produtos" EntityType="Self.Produtos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VendaItens" EntityType="Self.VendaItens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendas" EntityType="Self.Vendas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Clientes__IDCida__38996AB5" Association="Self.FK__Clientes__IDCida__38996AB5">
+            <End Role="Cidades" EntitySet="Cidades" />
+            <End Role="Clientes" EntitySet="Clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Produtos__IDCate__3E52440B" Association="Self.FK__Produtos__IDCate__3E52440B">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Produtos" EntitySet="Produtos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VendaIten__IDPro__46E78A0C" Association="Self.FK__VendaIten__IDPro__46E78A0C">
+            <End Role="Produtos" EntitySet="Produtos" />
+            <End Role="VendaItens" EntitySet="VendaItens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VendaIten__IDVen__45F365D3" Association="Self.FK__VendaIten__IDVen__45F365D3">
+            <End Role="Vendas" EntitySet="Vendas" />
+            <End Role="VendaItens" EntitySet="VendaItens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vendas__IDClient__4316F928" Association="Self.FK__Vendas__IDClient__4316F928">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Vendas" EntitySet="Vendas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AulaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Produtos" Relationship="Self.FK__Produtos__IDCate__182C9B23" FromRole="Categorias" ToRole="Produtos" />
+        </EntityType>
+        <EntityType Name="Cidade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UF" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Clientes" Relationship="Self.FK__Clientes__IDCida__1273C1CD" FromRole="Cidades" ToRole="Clientes" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDCidade" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ativo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cidade" Relationship="Self.FK__Clientes__IDCida__1273C1CD" FromRole="Clientes" ToRole="Cidades" />
+          <NavigationProperty Name="Vendas" Relationship="Self.FK__Vendas__IDClient__1CF15040" FromRole="Clientes" ToRole="Vendas" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDCategoria" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantidade" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ValorUnitario" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Ativo" Type="Boolean" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK__Produtos__IDCate__182C9B23" FromRole="Produtos" ToRole="Categorias" />
+          <NavigationProperty Name="VendaItens" Relationship="Self.FK__VendaIten__IDPro__20C1E124" FromRole="Produtos" ToRole="VendaItens" />
+        </EntityType>
+        <EntityType Name="VendaIten">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDVenda" Type="Int32" Nullable="false" />
+          <Property Name="IDProduto" Type="Int32" Nullable="false" />
+          <Property Name="Quantidade" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ValorUnitario" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Produto" Relationship="Self.FK__VendaIten__IDPro__20C1E124" FromRole="VendaItens" ToRole="Produtos" />
+          <NavigationProperty Name="Venda" Relationship="Self.FK__VendaIten__IDVen__1FCDBCEB" FromRole="VendaItens" ToRole="Vendas" />
+        </EntityType>
+        <EntityType Name="Venda">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDCliente" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Vendas__IDClient__1CF15040" FromRole="Vendas" ToRole="Clientes" />
+          <NavigationProperty Name="VendaItens" Relationship="Self.FK__VendaIten__IDVen__1FCDBCEB" FromRole="Vendas" ToRole="VendaItens" />
+        </EntityType>
+        <Association Name="FK__Produtos__IDCate__182C9B23">
+          <End Role="Categorias" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Produtos" Type="Self.Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Produtos">
+              <PropertyRef Name="IDCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Clientes__IDCida__1273C1CD">
+          <End Role="Cidades" Type="Self.Cidade" Multiplicity="1" />
+          <End Role="Clientes" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cidades">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Clientes">
+              <PropertyRef Name="IDCidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vendas__IDClient__1CF15040">
+          <End Role="Clientes" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Vendas" Type="Self.Venda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vendas">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VendaIten__IDPro__20C1E124">
+          <End Role="Produtos" Type="Self.Produto" Multiplicity="1" />
+          <End Role="VendaItens" Type="Self.VendaIten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produtos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VendaItens">
+              <PropertyRef Name="IDProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VendaIten__IDVen__1FCDBCEB">
+          <End Role="Vendas" Type="Self.Venda" Multiplicity="1" />
+          <End Role="VendaItens" Type="Self.VendaIten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VendaItens">
+              <PropertyRef Name="IDVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AulaEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorias" EntityType="Self.Categoria" />
+          <EntitySet Name="Cidades" EntityType="Self.Cidade" />
+          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
+          <EntitySet Name="Produtos" EntityType="Self.Produto" />
+          <EntitySet Name="VendaItens" EntityType="Self.VendaIten" />
+          <EntitySet Name="Vendas" EntityType="Self.Venda" />
+          <AssociationSet Name="FK__Produtos__IDCate__182C9B23" Association="Self.FK__Produtos__IDCate__182C9B23">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Produtos" EntitySet="Produtos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Clientes__IDCida__1273C1CD" Association="Self.FK__Clientes__IDCida__1273C1CD">
+            <End Role="Cidades" EntitySet="Cidades" />
+            <End Role="Clientes" EntitySet="Clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vendas__IDClient__1CF15040" Association="Self.FK__Vendas__IDClient__1CF15040">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Vendas" EntitySet="Vendas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VendaIten__IDPro__20C1E124" Association="Self.FK__VendaIten__IDPro__20C1E124">
+            <End Role="Produtos" EntitySet="Produtos" />
+            <End Role="VendaItens" EntitySet="VendaItens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VendaIten__IDVen__1FCDBCEB" Association="Self.FK__VendaIten__IDVen__1FCDBCEB">
+            <End Role="Vendas" EntitySet="Vendas" />
+            <End Role="VendaItens" EntitySet="VendaItens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AulaModelStoreContainer" CdmEntityContainer="AulaEntities2">
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="AulaModel.Categoria">
+              <MappingFragment StoreEntitySet="Categorias">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cidades">
+            <EntityTypeMapping TypeName="AulaModel.Cidade">
+              <MappingFragment StoreEntitySet="Cidades">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="UF" ColumnName="UF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="AulaModel.Cliente">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDCidade" ColumnName="IDCidade" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produtos">
+            <EntityTypeMapping TypeName="AulaModel.Produto">
+              <MappingFragment StoreEntitySet="Produtos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDCategoria" ColumnName="IDCategoria" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+                <ScalarProperty Name="ValorUnitario" ColumnName="ValorUnitario" />
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VendaItens">
+            <EntityTypeMapping TypeName="AulaModel.VendaIten">
+              <MappingFragment StoreEntitySet="VendaItens">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDVenda" ColumnName="IDVenda" />
+                <ScalarProperty Name="IDProduto" ColumnName="IDProduto" />
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+                <ScalarProperty Name="ValorUnitario" ColumnName="ValorUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendas">
+            <EntityTypeMapping TypeName="AulaModel.Venda">
+              <MappingFragment StoreEntitySet="Vendas">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

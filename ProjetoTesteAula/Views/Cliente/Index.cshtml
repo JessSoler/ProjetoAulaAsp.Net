@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProjetoTesteAula.Models.Cliente>
+
+@{
+    ViewBag.Title = "Lista de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Clientes</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+        @*<th>#</th>*@
+        <th> @Html.DisplayNameFor(model => model.Nome) </th>
+        <th>@Html.DisplayNameFor(model => model.DataNascimento)</th>
+        <th> @Html.DisplayNameFor(model => model.Sexo) </th>
+        <th> @Html.DisplayNameFor(model => model.Cidade) </th>
+        <th>@Html.DisplayNameFor(model => model.Ativo) </th>
+        <th></th>
+    </tr>
+
+    @*@{int linha = 0;}*@
+    @foreach (var item in Model)
+    {
+        //linha++;
+        <tr>
+            @*<td>@linha<td>*@
+            <td> @Html.DisplayFor(modelItem => item.Nome)</td>
+            <td> @Html.DisplayFor(modelItem => item.DataNascimento)</td>
+            <td> @Html.DisplayFor(modelItem => item.Sexo) </td>
+            <td> @Html.DisplayFor(modelItem => item.Cidade.Nome) </td>
+            <td> @Html.DisplayFor(modelItem => item.Ativo) </td>
+            <td>
+                @*colocar desenhos*@
+                <a href="/Cliente/Edit/@item.ID" data-toggle="tooltip" title="Alterar!"><i class="fas fa-edit"></i></a>
+                <a href="/Cliente/Delete/@item.ID" data-toggle="tooltip" title="Excluir"onclick="return confirm('Tem Certeza?');"><i class="fas fa-trash-alt"></i></a>
+                <a href="/Cliente/Details/@item.ID" data-toggle="tooltip" title="Abrir"><i class="far fa-eye"></i></a>
+
+
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
